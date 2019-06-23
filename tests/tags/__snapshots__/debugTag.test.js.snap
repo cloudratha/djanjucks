@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`debug tag outputs the context 1`] = `
+"{
+  &quot;items&quot;: [
+    &quot;A&quot;,
+    &quot;B&quot;,
+    &quot;C&quot;
+  ],
+  &quot;date&quot;: &quot;2019-01-01T00:00:00.000Z&quot;,
+  &quot;object&quot;: {
+    &quot;key&quot;: &quot;value&quot;
+  },
+  &quot;number&quot;: 100,
+  &quot;bool&quot;: true
+}"
+`;

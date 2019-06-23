@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`regroup tag adds target to main context 1`] = `
+"
+<ul>
+
+    <li>India
+    <ul>
+        
+          <li>Mumbai: 19,000,000</li>
+        
+          <li>Calcutta: 15,000,000</li>
+        
+    </ul>
+    </li>
+
+    <li>USA
+    <ul>
+        
+          <li>New York: 20,000,000</li>
+        
+          <li>Chicago: 7,000,000</li>
+        
+    </ul>
+    </li>
+
+    <li>Japan
+    <ul>
+        
+          <li>Tokyo: 33,000,000</li>
+        
+    </ul>
+    </li>
+
+</ul>"
+`;
+
+exports[`regroup tag allows grouping with dot notation 1`] = `
+"
+
+<ul>
+
+    <li>red
+    <ul>
+        
+          <li>India: Mumbai</li>
+        
+          <li>USA: Chicago</li>
+        
+    </ul>
+    </li>
+
+    <li>blue
+    <ul>
+        
+          <li>India: Calcutta</li>
+        
+    </ul>
+    </li>
+
+    <li>yellow
+    <ul>
+        
+          <li>USA: New York</li>
+        
+          <li>Japan: Tokyo</li>
+        
+    </ul>
+    </li>
+
+</ul>"
+`;

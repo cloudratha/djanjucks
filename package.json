@@ -1,0 +1,48 @@
+{
+  "name": "djanjucks",
+  "version": "0.0.1",
+  "description": "A Django template engine built on top of Nunjucks.",
+  "main": "index.js",
+  "scripts": {
+    "prebuild": "rm -rf ./dist",
+    "build": "babel src -d dist",
+    "test": "jest",
+    "test:coverage": "jest --coverage --collectCoverageFrom=src/**/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cloudratha/djanjucks.git"
+  },
+  "keywords": [
+    "django",
+    "nunjucks",
+    "template",
+    "templating"
+  ],
+  "author": "Gareth Cozens <gareth@cuzzy.dev>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cloudratha/djanjucks/issues"
+  },
+  "homepage": "https://github.com/cloudratha/djanjucks#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "babel-jest": "^24.8.0",
+    "jest": "^24.8.0"
+  },
+  "dependencies": {
+    "date-fns": "^1.30.1",
+    "from-exponential": "^1.0.0",
+    "lodash.get": "^4.4.2",
+    "lodash.groupby": "^4.6.0",
+    "nunjucks": "^3.2.0",
+    "pretty-num": "^0.3.0"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
+    }
+  }
+}
