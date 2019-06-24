@@ -69,4 +69,15 @@ false:true:3`);
 
     expect(result).toEqual('empty');
   });
+
+  it('reverses the array with the keyword', () => {
+    const result = djanjucks.renderString(
+      `{% for item in items reversed %}{{ item }}{% endfor %}`,
+      {
+        items: ['1', '2', '3']
+      }
+    );
+
+    expect(result).toEqual('321');
+  });
 });

@@ -1,6 +1,7 @@
 import { Compiler } from 'nunjucks/src/compiler';
 import transformer from 'nunjucks/src/transformer';
 import parser from './parser';
+import nodes from './nodes';
 
 class DjanjucksCompiler extends Compiler {
   compileIfChanged(node, frame) {
@@ -68,6 +69,106 @@ class DjanjucksCompiler extends Compiler {
     bindings.forEach(b => {
       this._emitLine(`frame.set("forloop.${b.name}", ${b.val});`);
     });
+  }
+
+  compileFor(node, frame) {
+    // Taken verbatim from Nunjucks.
+    // Add support for empty & reversed.
+
+    const i = this._tmpid();
+    const len = this._tmpid();
+    const arr = this._tmpid();
+    frame = frame.push();
+
+    this._emitLine('frame = frame.push();');
+
+    this._emit(`var ${arr} = `);
+    this._compileExpression(node.arr, frame);
+    this._emitLine(';');
+
+    if (node.reversed) {
+      this._emitLine(`${arr} = ${arr}.reverse();`);
+    }
+
+    this._emit(`if(${arr}) {`);
+    this._emitLine(arr + ' = runtime.fromIterator(' + arr + ');');
+
+    // If multiple names are passed, we need to bind them
+    // appropriately
+    if (node.name instanceof nodes.Array) {
+      this._emitLine(`var ${i};`);
+
+      // The object could be an arroy or object. Note that the
+      // body of the loop is duplicated for each condition, but
+      // we are optimizing for speed over size.
+      this._emitLine(`if(runtime.isArray(${arr})) {`);
+      this._emitLine(`var ${len} = ${arr}.length;`);
+      this._emitLine(`for(${i}=0; ${i} < ${arr}.length; ${i}++) {`);
+
+      // Bind each declared var
+      node.name.children.forEach((child, u) => {
+        var tid = this._tmpid();
+        this._emitLine(`var ${tid} = ${arr}[${i}][${u}];`);
+        this._emitLine(`frame.set("${child}", ${arr}[${i}][${u}]);`);
+        frame.set(node.name.children[u].value, tid);
+      });
+
+      this._emitLoopBindings(node, arr, i, len);
+      this._withScopedSyntax(() => {
+        this.compile(node.body, frame);
+      });
+      this._emitLine('}');
+
+      this._emitLine('} else {');
+      // Iterate over the key/values of an object
+      const [key, val] = node.name.children;
+      const k = this._tmpid();
+      const v = this._tmpid();
+      frame.set(key.value, k);
+      frame.set(val.value, v);
+
+      this._emitLine(`${i} = -1;`);
+      this._emitLine(`var ${len} = runtime.keys(${arr}).length;`);
+      this._emitLine(`for(var ${k} in ${arr}) {`);
+      this._emitLine(`${i}++;`);
+      this._emitLine(`var ${v} = ${arr}[${k}];`);
+      this._emitLine(`frame.set("${key.value}", ${k});`);
+      this._emitLine(`frame.set("${val.value}", ${v});`);
+
+      this._emitLoopBindings(node, arr, i, len);
+      this._withScopedSyntax(() => {
+        this.compile(node.body, frame);
+      });
+      this._emitLine('}');
+
+      this._emitLine('}');
+    } else {
+      // Generate a typical array iteration
+      const v = this._tmpid();
+      frame.set(node.name.value, v);
+
+      this._emitLine(`var ${len} = ${arr}.length;`);
+      this._emitLine(`for(var ${i}=0; ${i} < ${arr}.length; ${i}++) {`);
+      this._emitLine(`var ${v} = ${arr}[${i}];`);
+      this._emitLine(`frame.set("${node.name.value}", ${v});`);
+
+      this._emitLoopBindings(node, arr, i, len);
+
+      this._withScopedSyntax(() => {
+        this.compile(node.body, frame);
+      });
+
+      this._emitLine('}');
+    }
+
+    this._emitLine('}');
+    if (node.empty) {
+      this._emitLine('if (!' + len + ') {');
+      this.compile(node.empty, frame);
+      this._emitLine('}');
+    }
+
+    this._emitLine('frame = frame.pop();');
   }
 }
 

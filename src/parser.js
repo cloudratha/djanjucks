@@ -113,6 +113,9 @@ class DjangoParser extends Parser {
   }
 
   parseFor() {
+    // Taken verbatim from Nunjucks.
+    // Add support for empty & reversed.
+
     var forTok = this.peekToken();
     var node;
     var endBlock;
@@ -158,13 +161,16 @@ class DjangoParser extends Parser {
     }
 
     node.arr = this.parseExpression();
+
+    node.reversed = this.skipSymbol('reversed');
+
     this.advanceAfterBlockEnd(forTok.value);
 
     node.body = this.parseUntilBlocks(endBlock, 'empty');
 
     if (this.skipSymbol('empty')) {
       this.advanceAfterBlockEnd('empty');
-      node.else_ = this.parseUntilBlocks(endBlock);
+      node.empty = this.parseUntilBlocks(endBlock);
     }
 
     this.advanceAfterBlockEnd();
