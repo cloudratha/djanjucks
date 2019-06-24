@@ -40,4 +40,18 @@ describe('with tag', () => {
 
     expect(result).toEqual('100123');
   });
+
+  it('supports binding output to context', () => {
+    const result = djanjucks.renderString(
+      '{% with item.total as total%}{{ total }}{% endwith %}{{ total }}',
+      {
+        item: {
+          total: 100
+        },
+        total: 123
+      }
+    );
+
+    expect(result).toEqual('100123');
+  });
 });
