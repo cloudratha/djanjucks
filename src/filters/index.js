@@ -11,6 +11,7 @@ import fileSizeFormat from './fileSizeFormat';
 import floatFormat from './floatFormat';
 import getDigit from './getDigit';
 import jsonScript from './jsonScript';
+import lengthIs from './lengthIs';
 import linebreaks from './linebreaks';
 
 export {
@@ -27,5 +28,6 @@ export {
   floatFormat,
   getDigit,
   jsonScript,
+  lengthIs,
   linebreaks
 };

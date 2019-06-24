@@ -31,6 +31,7 @@ import {
   floatFormat,
   getDigit,
   jsonScript,
+  lengthIs,
   linebreaks
 } from './filters';
 
@@ -66,6 +67,7 @@ class djanjucksEnvironment extends Environment {
     this.addFilter('floatformat', floatFormat);
     this.addFilter('get_digit', getDigit);
     this.addFilter('json_script', jsonScript);
+    this.addFilter('length_is', lengthIs);
     this.addFilter('linebreaks', linebreaks);
 
     // Rename exisiting Nunjucks filters to match Django
