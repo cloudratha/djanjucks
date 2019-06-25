@@ -37,7 +37,8 @@ import {
   linebreaks,
   linebreaksBr,
   lineNumbers,
-  ljust
+  ljust,
+  phone2Numeric
 } from './filters';
 
 class djanjucksEnvironment extends Environment {
@@ -79,10 +80,13 @@ class djanjucksEnvironment extends Environment {
     this.addFilter('linebreaksbr', linebreaksBr);
     this.addFilter('linenumbers', lineNumbers);
     this.addFilter('ljust', ljust);
+    this.addFilter('phone2numeric', phone2Numeric);
 
     // Rename exisiting Nunjucks filters to match Django
     this.filters.force_escape = this.filters.forceescape;
+    this.filters.make_list = this.filters.list;
     delete this.filters.forceescape;
+    delete this.filters.list;
   }
 }
 
