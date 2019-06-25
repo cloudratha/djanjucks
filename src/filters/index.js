@@ -10,6 +10,7 @@ import escapeJs from './escapeJs';
 import fileSizeFormat from './fileSizeFormat';
 import floatFormat from './floatFormat';
 import getDigit from './getDigit';
+import iriEncode from './iriEncode';
 import jsonScript from './jsonScript';
 import lengthIs from './lengthIs';
 import linebreaks from './linebreaks';
@@ -27,6 +28,7 @@ export {
   fileSizeFormat,
   floatFormat,
   getDigit,
+  iriEncode,
   jsonScript,
   lengthIs,
   linebreaks

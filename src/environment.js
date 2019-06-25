@@ -31,6 +31,7 @@ import {
   fileSizeFormat,
   floatFormat,
   getDigit,
+  iriEncode,
   jsonScript,
   lengthIs,
   linebreaks
@@ -68,6 +69,7 @@ class djanjucksEnvironment extends Environment {
     this.addFilter('filesizeformat', fileSizeFormat);
     this.addFilter('floatformat', floatFormat);
     this.addFilter('get_digit', getDigit);
+    this.addFilter('iriencode', iriEncode);
     this.addFilter('json_script', jsonScript);
     this.addFilter('length_is', lengthIs);
     this.addFilter('linebreaks', linebreaks);
