@@ -102,6 +102,35 @@ class DjangoParser extends Parser {
     return node;
   }
 
+  parseInclude() {
+    const tagName = 'include';
+    const token = this.peekToken();
+    if (!this.skipSymbol(tagName)) {
+      this.fail('parseInclude: expected ' + tagName);
+    }
+
+    const node = new nodes.Include(token.lineno, token.colno);
+
+    node.template = this.parsePrimary();
+
+    if (this.skipSymbol('with')) {
+      // Cheekily use parseSignature here.
+      // Arg should be compared to "only"
+      const kwargs = this.parseSignature(null, true);
+      if (kwargs.children[0].value === 'only') {
+        console.log(kwargs.children);
+        node.only = true;
+      }
+
+      if (kwargs.children[kwargs.children.length - 1]) {
+        node.kwargs = kwargs.children[kwargs.children.length - 1];
+      }
+    }
+
+    this.advanceAfterBlockEnd(token.value);
+    return node;
+  }
+
   parseFilterArgs(node) {
     if (this.peekToken().type === lexer.TOKEN_COLON) {
       // Get a FunCall node and add the parameters to the
@@ -206,8 +235,6 @@ class DjangoParser extends Parser {
         return this.parseBlock();
       case 'extends':
         return this.parseExtends();
-      case 'include':
-        return this.parseInclude();
       case 'set':
         return this.parseSet();
       case 'macro':

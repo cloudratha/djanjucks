@@ -2,8 +2,9 @@ import nunjucks, { runtime, Template, lib } from 'nunjucks';
 import Environment from './environment';
 import compiler from './compiler';
 import parser from './parser';
+import { precompile, precompileString } from './precompile';
 
-// Override nunjucks parsee and compiler factories
+// Override nunjucks parser and compiler factories
 nunjucks.parser.parse = parser.parse;
 nunjucks.compiler.compile = compiler.compile;
 
@@ -68,6 +69,8 @@ const reset = () => {
 export { lib, runtime, Environment, Template };
 
 export default {
+  precompile,
+  precompileString,
   configure,
   compile,
   render,

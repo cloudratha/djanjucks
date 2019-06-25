@@ -6,6 +6,7 @@ import {
   Debug,
   FirstOf,
   IfChanged,
+  Include,
   Load,
   Lorem,
   Now,
@@ -44,6 +45,7 @@ class djanjucksEnvironment extends Environment {
     this.addExtension('Debug', new Debug());
     this.addExtension('FirstOf', new FirstOf());
     this.addExtension('IfChanged', new IfChanged());
+    this.addExtension('Include', new Include());
     this.addExtension('Load', new Load());
     this.addExtension('Lorem', new Lorem());
     this.addExtension('Now', new Now());
