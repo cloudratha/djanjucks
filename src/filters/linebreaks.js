@@ -1,12 +1,21 @@
 import { runtime } from '..';
+import { escapeHtml, normalizeNewlines } from '../utilities';
 
-const linebreaks = value => {
-  return new runtime.SafeString(
-    value
-      .split('\n\n')
-      .map(sentence => `<p>${sentence}</p>`)
-      .join('\n')
+function linebreaks(value) {
+  const autoescape =
+    this.env.opts.autoescape && !(value instanceof runtime.SafeString);
+  return runtime.markSafe(
+    normalizeNewlines(value)
+      .split(/\n{2,}/g)
+      .map(sentence => {
+        const output = autoescape ? escapeHtml(sentence) : sentence;
+        return `<p>${runtime.copySafeness(
+          value,
+          output.replace('\n', '<br>')
+        )}</p>`;
+      })
+      .join('\n\n')
   );
-};
+}
 
 export default linebreaks;

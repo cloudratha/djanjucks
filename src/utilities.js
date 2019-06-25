@@ -36,6 +36,8 @@ const normalize = (value, defaultValue) => {
   return value;
 };
 
+const normalizeNewlines = value => value.replace(/\r\n|\r/g, '\n');
+
 const translateMap = (value, map) => {
   const targets = Object.keys(map)
     .join('|')
@@ -44,11 +46,23 @@ const translateMap = (value, map) => {
   return value.replace(regex, char => map[char]);
 };
 
+const HTML_ESCAPES = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39'
+};
+
+const escapeHtml = value => translateMap(value, HTML_ESCAPES);
+
 export {
   avoidWrapping,
   createHmtlTag,
+  escapeHtml,
   flattenTokenDotNotation,
   isNodeNumber,
   normalize,
+  normalizeNewlines,
   translateMap
 };
