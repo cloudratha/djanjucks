@@ -16,6 +16,7 @@ import lengthIs from './lengthIs';
 import linebreaks from './linebreaks';
 import linebreaksBr from './linebreaksBr';
 import lineNumbers from './lineNumbers';
+import ljust from './ljust';
 
 export {
   add,
@@ -35,5 +36,6 @@ export {
   lengthIs,
   linebreaks,
   linebreaksBr,
-  lineNumbers
+  lineNumbers,
+  ljust
 };
