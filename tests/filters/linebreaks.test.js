@@ -41,8 +41,6 @@ describe('linebreaks filter', () => {
     const result = djanjucks.renderString('{{ value|linebreaks }}', {
       value: 'line 1\rline 2'
     });
-
-    console.log(result);
     expect(result).toEqual(`<p>line 1<br>line 2</p>`);
   });
 
@@ -50,8 +48,13 @@ describe('linebreaks filter', () => {
     const result = djanjucks.renderString('{{ value|linebreaks }}', {
       value: 'line 1\r\nline 2'
     });
-    console.log(result);
-
     expect(result).toEqual(`<p>line 1<br>line 2</p>`);
+  });
+
+  it('handles non string values', () => {
+    const result = djanjucks.renderString('{{ value|linebreaks }}', {
+      value: 123
+    });
+    expect(result).toEqual(`<p>123</p>`);
   });
 });

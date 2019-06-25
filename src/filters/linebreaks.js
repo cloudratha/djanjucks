@@ -5,7 +5,7 @@ function linebreaks(value) {
   const autoescape =
     this.env.opts.autoescape && !(value instanceof runtime.SafeString);
   return runtime.markSafe(
-    normalizeNewlines(value)
+    normalizeNewlines(String(value))
       .split(/\n{2,}/g)
       .map(sentence => {
         const output = autoescape ? escapeHtml(sentence) : sentence;
