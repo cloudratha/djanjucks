@@ -1,10 +1,10 @@
-import prettyNum, { PRECISION_SETTING } from 'pretty-num';
 import fromExponential from 'from-exponential';
 import { runtime } from '..';
 
 const floatFormat = (value, arg) => {
+  const parseValue = parseFloat(value);
   // If value is invalid short circuit.
-  if (isNaN(parseFloat(value))) {
+  if (isNaN(parseValue)) {
     return '';
   }
 
@@ -37,10 +37,9 @@ const floatFormat = (value, arg) => {
   }
 
   // Pretty the number to the precision at a fixed position.
-  let float = prettyNum(value, {
-    precision,
-    precisionSetting: PRECISION_SETTING.FIXED
-  });
+  let float = fromExponential(
+    precision !== null ? parseValue.toFixed(precision) : parseValue
+  );
 
   // Depending on the sign of the argument we need to clean up the mantissa.
   let parts = float.split('.');
