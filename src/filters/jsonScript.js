@@ -1,4 +1,4 @@
-import { runtime } from '..';
+import { runtime, lib } from '..';
 import { createHmtlTag, translateMap } from '../utilities';
 
 const JSON_SCRIPT_ESCAPES = {
@@ -8,6 +8,9 @@ const JSON_SCRIPT_ESCAPES = {
 };
 
 const jsonScript = (value, name = '') => {
+  if (!name) {
+    throw new Error('json_script filter: missing or blank name argument');
+  }
   const json = JSON.stringify(value, null, 2);
   const attrs = {
     id: name,
