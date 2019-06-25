@@ -35,7 +35,8 @@ import {
   jsonScript,
   lengthIs,
   linebreaks,
-  linebreaksBr
+  linebreaksBr,
+  lineNumbers
 } from './filters';
 
 class djanjucksEnvironment extends Environment {
@@ -75,6 +76,7 @@ class djanjucksEnvironment extends Environment {
     this.addFilter('length_is', lengthIs);
     this.addFilter('linebreaks', linebreaks);
     this.addFilter('linebreaksbr', linebreaksBr);
+    this.addFilter('linenumbers', lineNumbers);
 
     // Rename exisiting Nunjucks filters to match Django
     this.filters.force_escape = this.filters.forceescape;

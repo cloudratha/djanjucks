@@ -15,6 +15,7 @@ import jsonScript from './jsonScript';
 import lengthIs from './lengthIs';
 import linebreaks from './linebreaks';
 import linebreaksBr from './linebreaksBr';
+import lineNumbers from './lineNumbers';
 
 export {
   add,
@@ -33,5 +34,6 @@ export {
   jsonScript,
   lengthIs,
   linebreaks,
-  linebreaksBr
+  linebreaksBr,
+  lineNumbers
 };
