@@ -11,6 +11,11 @@ describe('add filter', () => {
     expect(result).toEqual('4');
   });
 
+  it('parses string numbers', () => {
+    const result = djanjucks.renderString('{{ 1|add:"3" }}');
+    expect(result).toEqual('4');
+  });
+
   it('concats arrays', () => {
     const result = djanjucks.renderString(
       '{% set temp = first|add:second %}{{ temp|join:":" }}',

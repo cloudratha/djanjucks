@@ -3,6 +3,12 @@ const add = (base, arg) => {
     return [base, ...arg];
   }
 
+  const parseArg = parseFloat(arg);
+
+  if (!isNaN(parseArg)) {
+    return base + parseArg;
+  }
+
   return base + arg;
 };
 
