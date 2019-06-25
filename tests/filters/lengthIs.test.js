@@ -20,7 +20,7 @@ describe('length_is filter', () => {
     const result = djanjucks.renderString(
       '{% if value|length_is:"3" %}correct{% else %}incorrect{% endif %}',
       {
-        value: 'one'
+        value: [1, 2, 3]
       }
     );
     expect(result).toEqual('correct');
@@ -44,5 +44,12 @@ describe('length_is filter', () => {
       }
     );
     expect(result).toEqual('true');
+  });
+
+  it('retuns an empty string if value doesn not have a length', () => {
+    const result = djanjucks.renderString('{{ value|length_is:"3" }}', {
+      value: 1
+    });
+    expect(result).toEqual('');
   });
 });
