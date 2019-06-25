@@ -43,7 +43,7 @@ describe('with tag', () => {
 
   it('supports binding output to context', () => {
     const result = djanjucks.renderString(
-      '{% with item.total as total%}{{ total }}{% endwith %}{{ total }}',
+      '{% with item.total as total %}{{ total }}{% endwith %}{{ total }}',
       {
         item: {
           total: 100
@@ -53,5 +53,19 @@ describe('with tag', () => {
     );
 
     expect(result).toEqual('100123');
+  });
+
+  it('fails when more than one argument is provided with verbose "as"', () => {
+    expect(() => {
+      djanjucks.renderString(
+        '{% with item.price item.total as total %}{{ total }}{% endwith %}{{ total }}',
+        {
+          item: {
+            total: 100,
+            price: 20
+          }
+        }
+      );
+    }).toThrow('Only one argument is allowed');
   });
 });

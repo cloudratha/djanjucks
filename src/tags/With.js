@@ -18,16 +18,13 @@ class With {
     while (1) {
       // eslint-disable-line no-constant-condition
       tok = parser.peekToken();
-      if (tok.type === lexer.TOKEN_RIGHT_PAREN) {
-        parser.nextToken();
-        break;
-      } else if (tok.type === lexer.TOKEN_BLOCK_END) {
+      if (tok.type === lexer.TOKEN_BLOCK_END) {
         break;
       }
 
       if (parser.skipSymbol('as')) {
-        if (!args.children.length) {
-          parser.fail('With Tag: Too many arguments supplied for with "as"');
+        if (args.children.length !== 1) {
+          parser.fail('With Tag: Only one argument is allowed when using "as"');
         }
 
         const alias = parser.parsePrimary();
@@ -53,9 +50,7 @@ class With {
       }
     }
 
-    if (kwargs.children.length) {
-      args.addChild(kwargs);
-    }
+    args.addChild(kwargs);
 
     const current = parser.tokens.index;
 
