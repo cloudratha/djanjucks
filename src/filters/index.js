@@ -14,6 +14,7 @@ import iriEncode from './iriEncode';
 import jsonScript from './jsonScript';
 import lengthIs from './lengthIs';
 import linebreaks from './linebreaks';
+import linebreaksBr from './linebreaksBr';
 
 export {
   add,
@@ -31,5 +32,6 @@ export {
   iriEncode,
   jsonScript,
   lengthIs,
-  linebreaks
+  linebreaks,
+  linebreaksBr
 };
