@@ -2,8 +2,50 @@ import { Compiler } from 'nunjucks/src/compiler';
 import transformer from 'nunjucks/src/transformer';
 import parser from './parser';
 import nodes from './nodes';
+import { runtime } from '.';
 
 class DjanjucksCompiler extends Compiler {
+  // Prepares an NodeList for wrapping function arguments.
+  _compileAggregate(node, frame, startChar, endChar) {
+    if (startChar) {
+      this._emit(startChar);
+    }
+
+    node.children.forEach((child, i) => {
+      if (i > 0) {
+        this._emit(',');
+      }
+
+      // If a child is a Literal, mark it as safe
+      if (child instanceof nodes.Literal) {
+        child = new nodes.SafeLiteral(child.lineno, child.colno, child.value);
+      }
+
+      this.compile(child, frame);
+    });
+
+    if (endChar) {
+      this._emit(endChar);
+    }
+  }
+
+  compileSafeLiteral(node, frame) {
+    if (typeof node.value === 'string') {
+      let val = node.value.toString();
+      val = val.replace(/\\/g, '\\\\');
+      val = val.replace(/"/g, '\\"');
+      val = val.replace(/\n/g, '\\n');
+      val = val.replace(/\r/g, '\\r');
+      val = val.replace(/\t/g, '\\t');
+      val = val.replace(/\u2028/g, '\\u2028');
+      this._emit(`runtime.markSafe("${val}")`);
+    } else if (node.value === null) {
+      this._emit('null');
+    } else {
+      this._emit(node.value.toString());
+    }
+  }
+
   compileIfChanged(node, frame) {
     const id = this._tmpid();
     const tmp = this._tmpid();

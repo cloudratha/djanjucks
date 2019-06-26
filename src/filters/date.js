@@ -83,7 +83,7 @@ const dateFilter = (date, dateFormat) => {
 
   const pieces = [];
   for (let i = 0; i < dateFormat.length; i += 1) {
-    const piece = dateFormat[i];
+    const piece = dateFormat.toString()[i];
     // If supported key, format
     if (piece.match(DATE_FORMAT_REGEX) && map[piece]) {
       const formatted =

@@ -7,7 +7,8 @@ const djanjucksNodes = {
   }),
   IfChanged: nodes.Node.extend('IfChanged', {
     fields: ['body', 'args', 'else']
-  })
+  }),
+  SafeLiteral: nodes.Value.extend('SafeLiteral')
 };
 
 export default djanjucksNodes;

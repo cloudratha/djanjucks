@@ -43,7 +43,7 @@ const translateMap = (value, map) => {
     .join('|')
     .replace('\\', '\\\\');
   const regex = new RegExp(`(${targets})`, 'g');
-  return value.replace(regex, char => map[char]);
+  return value.toString().replace(regex, char => map[char]);
 };
 
 const HTML_ESCAPES = {
