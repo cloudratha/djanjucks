@@ -18,6 +18,7 @@ import linebreaksBr from './linebreaksBr';
 import lineNumbers from './lineNumbers';
 import ljust from './ljust';
 import phone2Numeric from './phone2Numeric';
+import pluralize from './pluralize';
 
 export {
   add,
@@ -39,5 +40,6 @@ export {
   linebreaksBr,
   lineNumbers,
   ljust,
-  phone2Numeric
+  phone2Numeric,
+  pluralize
 };
