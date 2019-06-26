@@ -12,6 +12,7 @@ import fileSizeFormat from './fileSizeFormat';
 import floatFormat from './floatFormat';
 import getDigit from './getDigit';
 import iriEncode from './iriEncode';
+import join from './join';
 import jsonScript from './jsonScript';
 import lengthIs from './lengthIs';
 import linebreaks from './linebreaks';
@@ -21,6 +22,7 @@ import ljust from './ljust';
 import phone2Numeric from './phone2Numeric';
 import pluralize from './pluralize';
 import pprint from './pprint';
+import safeSeq from './safeSeq';
 
 export {
   add,
@@ -37,6 +39,7 @@ export {
   floatFormat,
   getDigit,
   iriEncode,
+  join,
   jsonScript,
   lengthIs,
   linebreaks,
@@ -45,5 +48,6 @@ export {
   ljust,
   phone2Numeric,
   pluralize,
-  pprint
+  pprint,
+  safeSeq
 };

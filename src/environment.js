@@ -33,6 +33,7 @@ import {
   floatFormat,
   getDigit,
   iriEncode,
+  join,
   jsonScript,
   lengthIs,
   linebreaks,
@@ -41,7 +42,8 @@ import {
   ljust,
   phone2Numeric,
   pluralize,
-  pprint
+  pprint,
+  safeSeq
 } from './filters';
 
 class djanjucksEnvironment extends Environment {
@@ -78,6 +80,7 @@ class djanjucksEnvironment extends Environment {
     this.addFilter('floatformat', floatFormat);
     this.addFilter('get_digit', getDigit);
     this.addFilter('iriencode', iriEncode);
+    this.addFilter('join', join);
     this.addFilter('json_script', jsonScript);
     this.addFilter('length_is', lengthIs);
     this.addFilter('linebreaks', linebreaks);
@@ -87,6 +90,7 @@ class djanjucksEnvironment extends Environment {
     this.addFilter('phone2numeric', phone2Numeric);
     this.addFilter('pluralize', pluralize);
     this.addFilter('pprint', pprint);
+    this.addFilter('safeseq', safeSeq);
 
     // Rename exisiting Nunjucks filters to match Django
     this.filters.force_escape = this.filters.forceescape;
