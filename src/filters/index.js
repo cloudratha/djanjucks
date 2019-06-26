@@ -3,6 +3,7 @@ import addSlashes from './addSlashes';
 import capFirst from './capFirst';
 import cut from './cut';
 import date from './date';
+import defaultIfNone from './defaultIfNone';
 import dictsort from './dictsort';
 import dictsortReversed from './dictsortReversed';
 import divisibleBy from './divisibleBy';
@@ -27,6 +28,7 @@ export {
   capFirst,
   cut,
   date,
+  defaultIfNone,
   dictsort,
   dictsortReversed,
   divisibleBy,

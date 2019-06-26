@@ -24,6 +24,7 @@ import {
   capFirst,
   cut,
   date,
+  defaultIfNone,
   dictsort,
   dictsortReversed,
   divisibleBy,
@@ -68,6 +69,7 @@ class djanjucksEnvironment extends Environment {
     this.addFilter('capfirst', capFirst);
     this.addFilter('cut', cut);
     this.addFilter('date', date);
+    this.addFilter('default_if_none', defaultIfNone);
     this.addFilter('dictsort', dictsort);
     this.addFilter('dictsortreversed', dictsortReversed);
     this.addFilter('divisibleby', divisibleBy);
