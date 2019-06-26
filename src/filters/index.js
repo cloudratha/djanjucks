@@ -19,6 +19,7 @@ import lineNumbers from './lineNumbers';
 import ljust from './ljust';
 import phone2Numeric from './phone2Numeric';
 import pluralize from './pluralize';
+import pprint from './pprint';
 
 export {
   add,
@@ -41,5 +42,6 @@ export {
   lineNumbers,
   ljust,
   phone2Numeric,
-  pluralize
+  pluralize,
+  pprint
 };
