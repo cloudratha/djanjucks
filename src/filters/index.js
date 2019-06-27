@@ -22,7 +22,10 @@ import ljust from './ljust';
 import phone2Numeric from './phone2Numeric';
 import pluralize from './pluralize';
 import pprint from './pprint';
+import rjust from './rjust';
 import safeSeq from './safeSeq';
+import slice from './slice';
+import slugify from './slugify';
 
 export {
   add,
@@ -49,5 +52,8 @@ export {
   phone2Numeric,
   pluralize,
   pprint,
-  safeSeq
+  rjust,
+  safeSeq,
+  slice,
+  slugify
 };

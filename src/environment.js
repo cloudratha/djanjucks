@@ -43,7 +43,10 @@ import {
   phone2Numeric,
   pluralize,
   pprint,
-  safeSeq
+  rjust,
+  safeSeq,
+  slice,
+  slugify
 } from './filters';
 
 class djanjucksEnvironment extends Environment {
@@ -90,7 +93,10 @@ class djanjucksEnvironment extends Environment {
     this.addFilter('phone2numeric', phone2Numeric);
     this.addFilter('pluralize', pluralize);
     this.addFilter('pprint', pprint);
+    this.addFilter('rjust', rjust);
     this.addFilter('safeseq', safeSeq);
+    this.addFilter('slice', slice);
+    this.addFilter('slugify', slugify);
 
     // Rename exisiting Nunjucks filters to match Django
     this.filters.force_escape = this.filters.forceescape;

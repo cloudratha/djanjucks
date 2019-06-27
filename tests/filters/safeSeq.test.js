@@ -1,4 +1,4 @@
-import djanjucks, { runtime } from '../../src';
+import djanjucks from '../../src';
 
 describe('safeseq filter', () => {
   it('marks items in arrays as safe', () => {
