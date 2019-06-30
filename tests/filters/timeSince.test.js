@@ -1,4 +1,4 @@
-import djanjucks, { runtime } from '../../src';
+import djanjucks from '../../src';
 import {
   setMinutes,
   setDate,
