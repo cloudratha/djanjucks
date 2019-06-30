@@ -27,6 +27,7 @@ import safeSeq from './safeSeq';
 import slice from './slice';
 import slugify from './slugify';
 import stringFormat from './stringFormat';
+import time from './time';
 import timeSince from './timeSince';
 
 export {
@@ -59,5 +60,6 @@ export {
   slice,
   slugify,
   stringFormat,
+  time,
   timeSince
 };

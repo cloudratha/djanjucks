@@ -48,6 +48,7 @@ import {
   slice,
   slugify,
   stringFormat,
+  time,
   timeSince
 } from './filters';
 
@@ -100,6 +101,7 @@ class djanjucksEnvironment extends Environment {
     this.addFilter('slice', slice);
     this.addFilter('slugify', slugify);
     this.addFilter('stringformat', stringFormat);
+    this.addFilter('time', time);
     this.addFilter('timesince', timeSince);
 
     // Rename exisiting Nunjucks filters to match Django
