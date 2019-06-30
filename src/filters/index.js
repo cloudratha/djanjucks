@@ -29,6 +29,7 @@ import slugify from './slugify';
 import stringFormat from './stringFormat';
 import time from './time';
 import timeSince from './timeSince';
+import timeUntil from './timeUntil';
 
 export {
   add,
@@ -61,5 +62,6 @@ export {
   slugify,
   stringFormat,
   time,
-  timeSince
+  timeSince,
+  timeUntil
 };
