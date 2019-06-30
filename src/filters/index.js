@@ -26,6 +26,8 @@ import rjust from './rjust';
 import safeSeq from './safeSeq';
 import slice from './slice';
 import slugify from './slugify';
+import stringFormat from './stringFormat';
+import timeSince from './timeSince';
 
 export {
   add,
@@ -55,5 +57,7 @@ export {
   rjust,
   safeSeq,
   slice,
-  slugify
+  slugify,
+  stringFormat,
+  timeSince
 };

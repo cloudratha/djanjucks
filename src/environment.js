@@ -46,7 +46,9 @@ import {
   rjust,
   safeSeq,
   slice,
-  slugify
+  slugify,
+  stringFormat,
+  timeSince
 } from './filters';
 
 class djanjucksEnvironment extends Environment {
@@ -97,6 +99,8 @@ class djanjucksEnvironment extends Environment {
     this.addFilter('safeseq', safeSeq);
     this.addFilter('slice', slice);
     this.addFilter('slugify', slugify);
+    this.addFilter('stringformat', stringFormat);
+    this.addFilter('timesince', timeSince);
 
     // Rename exisiting Nunjucks filters to match Django
     this.filters.force_escape = this.filters.forceescape;

@@ -1,3 +1,5 @@
+import { runtime } from '.';
+
 // Replaces spaces non breaking spaces
 const avoidWrapping = value => value.replace(/\s/g, '\xa0');
 
@@ -56,6 +58,27 @@ const HTML_ESCAPES = {
 
 const escapeHtml = value => translateMap(value, HTML_ESCAPES);
 
+const stringify = item => {
+  if (item === null) {
+    return 'null';
+  } else if (item instanceof runtime.SafeString) {
+    return String(item.toString());
+  } else if (typeof item === 'number') {
+    return item;
+  } else if (typeof item === 'function') {
+    return `[Function: ${item.name}]`;
+  } else if (Array.isArray(item)) {
+    return item.map(value => stringify(value));
+  } else if (typeof item === 'object') {
+    return Object.keys(item).reduce((accum, key) => {
+      accum[key] = stringify(item[key]);
+      return accum;
+    }, {});
+  }
+
+  return item;
+};
+
 export {
   avoidWrapping,
   createHmtlTag,
@@ -64,5 +87,6 @@ export {
   isNodeNumber,
   normalize,
   normalizeNewlines,
+  stringify,
   translateMap
 };
