@@ -58,6 +58,12 @@ const HTML_ESCAPES = {
 
 const escapeHtml = value => translateMap(value, HTML_ESCAPES);
 
+const conditionalEscape = value => {
+  return value instanceof runtime.SafeString
+    ? value.toString()
+    : escapeHtml(value);
+};
+
 const stringify = item => {
   if (item === null) {
     return 'null';
@@ -81,6 +87,7 @@ const stringify = item => {
 
 export {
   avoidWrapping,
+  conditionalEscape,
   createHmtlTag,
   escapeHtml,
   flattenTokenDotNotation,

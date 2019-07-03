@@ -54,7 +54,8 @@ import {
   truncateChars,
   truncateCharsHtml,
   truncateWords,
-  truncateWordsHtml
+  truncateWordsHtml,
+  unorderedList
 } from './filters';
 
 class djanjucksEnvironment extends Environment {
@@ -113,6 +114,7 @@ class djanjucksEnvironment extends Environment {
     this.addFilter('truncatechars_html', truncateCharsHtml);
     this.addFilter('truncatewords', truncateWords);
     this.addFilter('truncatewords_html', truncateWordsHtml);
+    this.addFilter('unorderedlist', unorderedList);
 
     // Rename exisiting Nunjucks filters to match Django
     this.filters.force_escape = this.filters.forceescape;
