@@ -50,7 +50,11 @@ import {
   stringFormat,
   time,
   timeSince,
-  timeUntil
+  timeUntil,
+  truncateChars,
+  truncateCharsHtml,
+  truncateWords,
+  truncateWordsHtml
 } from './filters';
 
 class djanjucksEnvironment extends Environment {
@@ -105,6 +109,10 @@ class djanjucksEnvironment extends Environment {
     this.addFilter('time', time);
     this.addFilter('timesince', timeSince);
     this.addFilter('timeuntil', timeUntil);
+    this.addFilter('truncatechars', truncateChars);
+    this.addFilter('truncatechars_html', truncateCharsHtml);
+    this.addFilter('truncatewords', truncateWords);
+    this.addFilter('truncatewords_html', truncateWordsHtml);
 
     // Rename exisiting Nunjucks filters to match Django
     this.filters.force_escape = this.filters.forceescape;

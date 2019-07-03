@@ -30,6 +30,10 @@ import stringFormat from './stringFormat';
 import time from './time';
 import timeSince from './timeSince';
 import timeUntil from './timeUntil';
+import truncateChars from './truncateChars';
+import truncateCharsHtml from './truncateCharsHtml';
+import truncateWords from './truncateWords';
+import truncateWordsHtml from './truncateWordsHtml';
 
 export {
   add,
@@ -63,5 +67,9 @@ export {
   stringFormat,
   time,
   timeSince,
-  timeUntil
+  timeUntil,
+  truncateChars,
+  truncateCharsHtml,
+  truncateWords,
+  truncateWordsHtml
 };
