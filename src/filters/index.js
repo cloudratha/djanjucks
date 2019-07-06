@@ -35,6 +35,7 @@ import truncateCharsHtml from './truncateCharsHtml';
 import truncateWords from './truncateWords';
 import truncateWordsHtml from './truncateWordsHtml';
 import unorderedList from './unorderedList';
+import wordWrap from './wordWrap';
 
 export {
   add,
@@ -73,5 +74,6 @@ export {
   truncateCharsHtml,
   truncateWords,
   truncateWordsHtml,
-  unorderedList
+  unorderedList,
+  wordWrap
 };
