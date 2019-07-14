@@ -27,11 +27,11 @@ npm install --save djanjucks
 
 Installation follows the Nunjucks API:
 
-```
+```js
 import djanjucks from 'djanjucks';
 
 djanjucks.configure({ autoescape: true });
-djanjucks.renderString('Hello {{ username }}, { username: 'James' });
+djanjucks.renderString('Hello {{ username }}', { username: 'James' });
 ```
 
 See more about methods, see [Nunjucks API Documentation](https://mozilla.github.io/nunjucks/api.html)
