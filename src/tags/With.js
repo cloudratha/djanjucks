@@ -1,100 +1,38 @@
-import { runtime } from '..';
-
-// https://github.com/allmarkedup/nunjucks-with
 class With {
   constructor() {
     this.tags = ['with'];
   }
 
-  parse(parser, nodes, lexer) {
-    const start = parser.tokens.index;
+  parse(parser, nodes) {
     const token = parser.nextToken();
-    // const args = parser.parseSignature(null, true);
+    const node = new nodes.With(token.lineno, token.colno);
 
-    const args = new nodes.NodeList(token.lineno, token.colno);
-    const kwargs = new nodes.KeywordArgs(token.lineno, token.colno);
+    const args = parser.parseSignature(null, true);
+    const targetIndex = args.children.findIndex(arg => arg.value === 'as');
+    if (targetIndex !== -1) {
+      const target = args.children.splice(
+        targetIndex,
+        args.children.length - targetIndex
+      );
 
-    let tok;
-    while (1) {
-      // eslint-disable-line no-constant-condition
-      tok = parser.peekToken();
-      if (tok.type === lexer.TOKEN_BLOCK_END) {
-        break;
+      if (args.children.length !== 1) {
+        parser.fail('with: only one argument allowed when using "as".');
+      } else if (target.length === 1) {
+        parser.fail('with: missing target argument after "as".');
+      } else if (target.length > 2) {
+        parser.fail('with: too many arguments provided after "as".');
       }
 
-      if (parser.skipSymbol('as')) {
-        if (args.children.length !== 1) {
-          parser.fail('With Tag: Only one argument is allowed when using "as"');
-        }
-
-        const alias = parser.parsePrimary();
-        kwargs.addChild(
-          new nodes.Pair(
-            token.lineno,
-            token.colno,
-            new nodes.Literal(tok.lineno, tok.colno, 'as'),
-            new nodes.Literal(alias.lineno, alias.colno, alias.value)
-          )
-        );
-        break;
-      }
-
-      const arg = parser.parseExpression();
-
-      if (parser.skipValue(lexer.TOKEN_OPERATOR, '=')) {
-        kwargs.addChild(
-          new nodes.Pair(arg.lineno, arg.colno, arg, parser.parseExpression())
-        );
-      } else {
-        args.addChild(arg);
-      }
+      node.target = target[1];
     }
 
-    args.addChild(kwargs);
+    node.args = args;
+    parser.advanceAfterBlockEnd(token.value);
 
-    const current = parser.tokens.index;
+    node.body = parser.parseUntilBlocks('endwith');
+    parser.advanceAfterBlockEnd();
 
-    // Rewind cursor back to beginning
-    parser.tokens.backN(current - start);
-    while (parser.tokens.current() !== '{') {
-      parser.tokens.back();
-    }
-
-    parser.peeked = null;
-    // peek up to block end
-    var peek;
-    while ((peek = parser.peekToken())) {
-      if (peek.type === lexer.TOKEN_BLOCK_END) {
-        break;
-      }
-      parser.nextToken();
-    }
-
-    parser.tokens.backN(2);
-    parser.peeked = token;
-    parser.tokens.in_code = true;
-    const body = parser.parseRaw('with');
-    return new nodes.CallExtension(this, 'run', args, [body]);
-  }
-
-  run(context, ...args) {
-    let arg = args.shift();
-    let ctx = arg;
-
-    if (typeof arg !== 'object') {
-      const kwargs = args.shift();
-      ctx = {
-        [kwargs.as]: arg
-      };
-    }
-
-    const body = args.shift();
-    const output = context.env.renderString(body(), {
-      ...context.ctx,
-      ...ctx
-    });
-
-    return output;
+    return node;
   }
 }
 

@@ -118,7 +118,6 @@ class DjangoParser extends Parser {
       // Arg should be compared to "only"
       const kwargs = this.parseSignature(null, true);
       if (kwargs.children[0].value === 'only') {
-        console.log(kwargs.children);
         node.only = true;
       }
 
