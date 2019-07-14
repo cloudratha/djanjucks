@@ -1,11 +1,12 @@
 {
   "name": "djanjucks",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A Django template engine built on top of Nunjucks.",
   "main": "index.js",
   "scripts": {
     "prebuild": "rm -rf ./dist",
     "build": "babel src -d dist",
+    "prepare": "npm run build",
     "test": "jest",
     "test:coverage": "jest --coverage --collectCoverageFrom=src/**/*.js"
   },
