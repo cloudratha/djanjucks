@@ -51,10 +51,12 @@ describe('ifchanged tag', () => {
 
   it('renders in deeply nested for loops', () => {
     const result = djanjucks.renderString(
-      `{% for n in num %}{% ifchanged %}{{ n }}{% endifchanged %}
-{% for x in numx %}{% ifchanged %}{{ x }}{% endifchanged %}
-{% for y in numy %}{% ifchanged %}{{ y }}{% endifchanged %}
-{% endfor %}{% endfor %}{% endfor %}`,
+      [
+        '{% for n in num %}{% ifchanged %}{{ n }}{% endifchanged %}',
+        '{% for x in numx %}{% ifchanged %}{{ x }}{% endifchanged %}',
+        '{% for y in numy %}{% ifchanged %}{{ y }}{% endifchanged %}',
+        '{% endfor %}{% endfor %}{% endfor %}'
+      ].join(''),
       {
         num: [1, 1, 1],
         numx: [2, 2, 2],

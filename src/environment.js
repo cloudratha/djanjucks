@@ -1,8 +1,11 @@
 import { Environment } from 'nunjucks';
 
+import globals from './globals';
+
 import {
   Autoescape,
   Comment,
+  Cycle,
   Debug,
   FirstOf,
   IfChanged,
@@ -12,6 +15,7 @@ import {
   Now,
   PageUrl,
   Regroup,
+  ResetCycle,
   Spaceless,
   TemplateTag,
   WidthRatio,
@@ -62,9 +66,11 @@ import {
 class djanjucksEnvironment extends Environment {
   init(loaders, opts) {
     super.init(loaders, opts);
+    this.globals = globals();
     // Initialise the django template tags and filters
     this.addExtension('Autoescape', new Autoescape());
     this.addExtension('Comment', new Comment());
+    this.addExtension('Cycle', new Cycle());
     this.addExtension('Debug', new Debug());
     this.addExtension('FirstOf', new FirstOf());
     this.addExtension('IfChanged', new IfChanged());
@@ -74,6 +80,7 @@ class djanjucksEnvironment extends Environment {
     this.addExtension('Now', new Now());
     this.addExtension('PageUrl', new PageUrl());
     this.addExtension('Regroup', new Regroup());
+    this.addExtension('ResetCycle', new ResetCycle());
     this.addExtension('Spaceless', new Spaceless());
     this.addExtension('TemplateTag', new TemplateTag());
     this.addExtension('WidthRatio', new WidthRatio());

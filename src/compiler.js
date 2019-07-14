@@ -46,6 +46,39 @@ class DjanjucksCompiler extends Compiler {
     }
   }
 
+  compileWith(node, frame) {
+    frame = frame.push();
+    this._emitLine('frame = frame.push();');
+
+    if (node.args) {
+      node.args.children.forEach(child => {
+        var tid = this._tmpid();
+        this._emit(`var ${tid} =`);
+        this._compileExpression(child, frame);
+        this._emit(`;`);
+
+        if (child instanceof nodes.LookupVal) {
+          this._emitLine(`frame.set("${node.target.value}", ${tid})`);
+          frame.set(node.target.value, tid);
+        }
+        if (child instanceof nodes.KeywordArgs) {
+          child.children.forEach(pair => {
+            this._emitLine(
+              `frame.set("${pair.key.value}", ${tid}.${pair.key.value})`
+            );
+            frame.set(pair.key.value, `${tid}.${pair.key.value}`);
+          });
+        }
+      });
+    }
+
+    this._withScopedSyntax(() => {
+      this.compile(node.body, frame);
+    });
+
+    this._emitLine('frame = frame.pop();');
+  }
+
   compileIfChanged(node, frame) {
     const id = this._tmpid();
     const tmp = this._tmpid();
@@ -95,6 +128,103 @@ class DjanjucksCompiler extends Compiler {
     }
 
     this._emitLine(`}`);
+  }
+
+  compileCycle(node, frame) {
+    const id = this._tmpid();
+    this._emitLine(`var ${id};`);
+
+    const args = node.args.children;
+    // If no args
+    if (args.length < 1) {
+      this.fail('cycle: Requires at least one argument.');
+    }
+
+    // If a single arg which is a symbol
+    if (args.length === 1 && args[0] instanceof nodes.Symbol) {
+      const lookup = this._tmpid();
+      // Lookup is either a named cycler or lookup value
+      this._emit(`var ${lookup} = `);
+      this._compileExpression(args[0], frame);
+      this._emit(`;`);
+
+      // If we can't lookup the name
+      this._emitLine(`if (!${lookup}) {`);
+      this._emitLine(
+        `throw new Error('cycle: No named cycles in template. "${
+          args[0].value
+        }" is not defined.');`
+      );
+      this._emitLine(`}`);
+
+      // Check if the lookup is a cycler or create one
+      this._emitLine(
+        `if (typeof ${lookup} !== 'object' && typeof ${lookup}.next !== 'function') {`
+      );
+      this._emitLine(`${id} = env.globals.cycler(${lookup})`);
+      this._emit(`} else {`);
+      this._emitLine(`${id} = ${lookup}`);
+      this._emit(`}`);
+    } else {
+      this._emitLine(`if (!${id}) {`);
+      this._emitLine(`${id} = env.globals.cycler(`);
+      node.args.children.forEach(arg => {
+        this._compileExpression(arg, frame);
+        this._emitLine(`,`);
+      });
+      this._emitLine(`);`);
+      this._emitLine(`${id}.silence(${node.silent})`);
+      this._emitLine(`}`);
+    }
+    this._emitLine(`${id}.next()`);
+
+    this._emitLine(`if (!${id}.silent) {`);
+    this._emitLine(
+      `${
+        this.buffer
+      } += runtime.suppressValue(${id}.current, env.opts.autoescape)`
+    );
+    this._emitLine(`}`);
+
+    // If there is a target set it to the frame or context
+    if (node.target) {
+      frame.set(node.target.value, id);
+      this._emitLine(`frame.set('${node.target.value}', ${id});`);
+    } else {
+      this._emitLine(`frame.set('${id}', ${id});`);
+    }
+    this._emitLine(`context.setVariable('_last_cycle', ${id});`);
+  }
+
+  compileResetCycle(node, frame) {
+    const id = this._tmpid();
+    const args = node.args.children;
+
+    // If no args reset last set
+    if (args.length < 1) {
+      this._emitLine(
+        `var ${id} = runtime.contextOrFrameLookup(context, frame, '_last_cycle');`
+      );
+      this._emitLine(`if (!${id}) {`);
+      this._emitLine(
+        `throw new Error('resetcycle: No named cycle in template.');`
+      );
+      this._emitLine(`}`);
+    } else {
+      this._emit(`var ${id} = `);
+      this._compileExpression(args[0], frame);
+      this._emit(`;`);
+
+      this._emitLine(`if (!${id}) {`);
+      this._emitLine(
+        `throw new Error('resetcycle: No named cycle in template called "${
+          args[0].value
+        }".');`
+      );
+      this._emitLine(`}`);
+    }
+
+    this._emitLine(`${id}.reset();`);
   }
 
   _emitLoopBindings(node, arr, i, len) {
