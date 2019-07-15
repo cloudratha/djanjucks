@@ -1,6 +1,6 @@
 {
   "name": "djanjucks",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A Django template engine built on top of Nunjucks.",
   "main": "index.js",
   "scripts": {
